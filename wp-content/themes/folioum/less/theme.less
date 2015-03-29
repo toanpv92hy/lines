@@ -1,0 +1,347 @@
+
+//
+// Load core variables and mixins
+// --------------------------------------------------
+
+@import "variables.less";
+@import "mixins.less";
+
+// CSS3 PROPERTIES MIXINS
+// --------------------------------------------------
+
+.border-radius (@radius) {
+  border-radius: @radius;
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  -moz-background-clip:    padding;
+  -webkit-background-clip: padding-box;
+  background-clip:         padding-box;
+}
+.rotate (@deg) {
+  -webkit-transform: rotate(@deg);
+  -moz-transform:    rotate(@deg);
+  -ms-transform:     rotate(@deg);
+  -o-transform:      rotate(@deg);
+  transform:         rotate(@deg);
+}
+.transition(@elem: all, @duration:0.2s, @ease:ease-out) {
+  -webkit-transition: @elem @duration @ease;
+  -moz-transition: @elem @duration @ease;
+  -o-transition: @elem @duration @ease;
+  transition: @elem @duration @ease;
+}
+
+//
+// Buttons
+// --------------------------------------------------
+.btn-default {
+  .box-shadow(0 2px 0 darken(@btn-default-bg, 15%));
+    &:hover,
+    &:focus {
+      .box-shadow(0 2px 0 darken(@btn-default-bg, 20%));
+      background: darken(@btn-default-bg, 10%);
+      border-color: darken(@btn-default-bg, 7%);
+    }
+    &:active,
+    &.active  {
+      .box-shadow(0 2px 0 darken(@btn-default-bg, 15%));
+      background: darken(@btn-default-bg, 7%);
+      border-color: darken(@btn-default-bg, 7%);          
+    }    
+}
+.custom-btn(@color) {
+  .box-shadow(0 2px 0 darken(@color, 12%));
+    &:hover,
+    &:focus {
+      .box-shadow(0 2px 0 darken(@color, 7%));
+      background: darken(@color, 3%);   
+      border-color: darken(@color, 3%);   
+    }
+    &:active,
+    &.active  {
+      @shadow: 0 2px 0 @color, inset 0 1px 5px lighten(@color, 5%);
+      .box-shadow(@shadow);
+      background: lighten(@color, 5%);
+      border-color: lighten(@color, 5%);             
+    }    
+}
+.btn {
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    cursor: not-allowed;
+    pointer-events: none; // Future-proof disabling of clicks
+    .opacity(.65);   
+  }
+}
+.btn-primary {
+  .custom-btn(@brand-primary);  
+}
+.btn-success {
+  .custom-btn(@brand-success);
+}
+.btn-info {
+  .custom-btn(@brand-info);
+}
+.btn-warning {
+  .custom-btn(@brand-warning);
+}
+.btn-danger {
+  .custom-btn(@brand-danger);
+}
+
+// Text input groups
+// -------------------------
+.form-control-focus(@color: @input-border-focus) {
+  @color-rgba: rgba(red(@color), green(@color), blue(@color), .6);
+  &:focus {
+    border-color: @color;
+    outline: 0;
+    .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @{color-rgba}");
+  }
+}
+.form-control {
+    .box-shadow(0 2px 0 darken(@btn-default-bg, 15%));
+    &:focus {      
+      outline: 0;
+      border-color: @brand-primary;
+      .box-shadow(0 2px 0 @brand-primary);
+    }
+}
+.input-group-addon {
+    .box-shadow(0 2px 0 darken(@btn-default-bg, 15%));
+}
+
+// Navbar
+// --------------------------------------------------
+.navbar-default {
+  border-color: @brand-primary;  
+}
+
+label {
+  &.input-group-addon {
+    input[type="radio"],
+    input[type="checkbox"] {
+     + .pseudo-input {
+        margin-left: -10px;
+        margin-top: 8px;
+        float: none;
+       }
+    }      
+  }
+  input[type="radio"],
+  input[type="checkbox"] {
+    visibility: hidden;
+    opacity: 0;    
+    + .pseudo-input {
+      display: inline-block;
+      margin-top: 4px;
+      margin-left: -20px;
+      float: left;      
+        &:before {
+        font-family: 'Glyphicons Halflings';
+        display: inline-block;    
+        font-size: 18px;
+        line-height: 1px;  
+        color: #c7c7c7;     
+        visibility: visible;
+        margin-right: 5px;
+      }
+    }    
+    &:checked + .pseudo-input {
+      &:before {
+        color: @brand-primary;
+      }   
+    }
+    &:disabled + .pseudo-input {
+      &:before {
+        color: #dddcdc;
+        opacity: .7;
+      }    
+    }
+    &:checked:disabled + .pseudo-input {
+      &:before {
+        color: #dddcdc;
+      }   
+    }
+  }
+}
+
+label {
+  input[type="radio"] {
+    + .pseudo-input {    
+        &:before {
+        content: "\e089";             
+      }
+    }
+    &:checked + .pseudo-input {
+      &:before {
+        content: "\e084";        
+      }   
+    }
+    &:disabled + .pseudo-input {
+      &:before {
+        content: "\e089";        
+      }  
+    }
+    &:checked:disabled + .pseudo-input {
+      &:before {
+        content: "\e084";
+      } 
+    }
+  }
+}
+label {
+  input[type="checkbox"] {
+    + .pseudo-input {    
+        &:before {
+        content: "\e157";   
+      }
+    }
+    &:checked + .pseudo-input {
+      &:before {
+        content: "\e067"; 
+      }   
+    }
+    &:disabled + .pseudo-input {
+      &:before {
+        content: "\e157";   
+      }    
+    }
+    &:checked:disabled + .pseudo-input {
+      &:before {
+        content: "\e067";
+      }   
+    }
+  }
+}
+
+.custom-check,
+.custom-radio {
+  input[type="checkbox"],
+  input[type="radio"] {
+    visibility: hidden;
+    opacity: 0;
+  }
+  label {
+    display: inline;
+  }
+  input[type="checkbox"] + label:before,
+  input[type="radio"] + label:before {
+    font-family: 'Glyphicons Halflings';
+    display: inline-inline;    
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1px;  
+    color: #c7c7c7;     
+    visibility: visible;
+    margin-left: -20px;
+    float: left;
+    margin-right: 5px;
+    margin-top: 10px;    
+  }  
+  input[type="radio"]:checked + label:before,
+  input[type="checkbox"]:checked + label:before {      
+    color: @brand-primary;
+  }
+  input[type="radio"]:checked:disabled + label:before, 
+  input[type="checkbox"]:checked:disabled + label:before {      
+    color: #dddcdc;
+  }
+  input[type="radio"]:disabled + label:before,
+  input[type="checkbox"]:disabled + label:before {     
+    color: #dddcdc;
+  }
+}
+.custom-check {
+  input[type="checkbox"] {
+    visibility: hidden;
+    + label:before {
+      content: "\e157";     
+    }
+    &:checked + label:before {
+      content: "\e067";
+    }
+    &:checked:disabled + label:before {
+      content: "\e067";
+    }
+    &:disabled + label:before {
+      content: "\e157";
+    }
+  } 
+}
+.custom-radio {
+  input[type="radio"] {
+    visibility: hidden;
+    + label:before {     
+      content: "\e089";
+    }
+    &:checked + label:before {
+      content: "\e084";
+    }
+    &:checked:disabled + label:before {
+      content: "\e084";
+    }
+    &:disabled + label:before {
+      content: "\e089";
+    }
+  } 
+}
+
+/*focus input*/
+#focusedInput {
+  outline: 0;
+  border-color: @brand-primary;
+  .box-shadow(0 2px 0 @brand-primary);
+}
+
+@margin-item-block: 20px;
+@padding-item-block: 15px;
+
+.item-block {
+  margin: @margin-item-block;
+  padding: @padding-item-block;
+  .border-radius(3px);
+  border: 1px solid @gray-lighter;
+  h1, h2, h3 {
+    margin: 10px 0 15px;
+  }
+  .images {
+    margin-bottom: 20px;
+    img {
+      margin-right: 20px;
+    }
+  }
+}
+
+.item-group {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  > li {
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    vertical-align: top;
+    .btn-toolbar {
+      margin-top: 10px;
+    }
+  }
+}
+
+.wrap {
+  margin-top: @navbar-height + 20px;
+}
+
+.bs-modal {
+  .modal {
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    bottom: auto;
+    z-index: 1;
+    display: block;
+    overflow-y: auto; 
+  }
+}
